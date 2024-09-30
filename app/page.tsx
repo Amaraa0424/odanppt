@@ -7,6 +7,7 @@ import { Mousewheel, Pagination } from "swiper/modules";
 import TimeCounter from "@/components/TimeCounter";
 import Show from "@/components/Show";
 import Intro from "@/components/Intro";
+import Outro from "@/components/Outro";
 
 export default function Home() {
   const [activeIndex, setActiveIndex] = useState(0);
@@ -102,17 +103,18 @@ export default function Home() {
         "⦁	Процесс нь ихэвчлэн тусгаарлагдсан байдаг бол Threads нь санах ойг хуваалцдаг.",
         "⦁	Процесс нь өгөгдөл хуваалцахгүй бөгөөд Threads нь өөр хоорондоо өгөгдлийг хуваалцдаг.",
       ],
-    },    
+    },
     {
       image:
         "https://miro.medium.com/v2/resize:fit:720/format:webp/1*b3Id83fP8zgIXdKXLzAZVQ.png",
-      isImageOnly: true
+      isImageOnly: true,
     },
     {
       image:
         "https://images.pexels.com/photos/1010487/pexels-photo-1010487.jpeg?auto=compress&cs=tinysrgb&w=600",
       title: "Multithreading гэж юу вэ?",
-      description: "Multithreading гэдэг нь үйлдлийн систем доторх олон урсгалын гүйцэтгэлийг хэлнэ. Энгийнээр хэлбэл, нэг процессын хоёр ба түүнээс дээш хэлхээг нэгэн зэрэг гүйцэтгэнэ ",
+      description:
+        "Multithreading гэдэг нь үйлдлийн систем доторх олон урсгалын гүйцэтгэлийг хэлнэ. Энгийнээр хэлбэл, нэг процессын хоёр ба түүнээс дээш хэлхээг нэгэн зэрэг гүйцэтгэнэ ",
       titleClassName: "text-white",
       descClassName: "text-gray-200",
       isImageOnly: false,
@@ -121,7 +123,7 @@ export default function Home() {
 
   React.useEffect(() => {
     if (swiper) {
-      swiper.on('slideChange', () => {
+      swiper.on("slideChange", () => {
         setActiveIndex(swiper.activeIndex);
       });
     }
@@ -135,7 +137,6 @@ export default function Home() {
         slidesPerView={1}
         spaceBetween={30}
         mousewheel={true}
-
         modules={[Mousewheel, Pagination]}
         className="mySwiper"
         onSlideChange={(swiper) => setActiveIndex(swiper.activeIndex)}
@@ -157,6 +158,9 @@ export default function Home() {
             />
           </SwiperSlide>
         ))}
+        <SwiperSlide>
+          <Outro isActive={activeIndex === 0} />
+        </SwiperSlide>
       </Swiper>
     </>
   );
