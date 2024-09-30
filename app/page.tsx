@@ -6,9 +6,11 @@ import "swiper/css/pagination";
 import { Mousewheel, Pagination } from "swiper/modules";
 import TimeCounter from "@/components/TimeCounter";
 import Show from "@/components/Show";
+import Intro from "@/components/Intro";
 
 export default function Home() {
   const [activeIndex, setActiveIndex] = useState(0);
+  const [swiper, setSwiper] = useState(null);
 
   const data = [
     {
@@ -100,14 +102,30 @@ export default function Home() {
         "⦁	Процесс нь ихэвчлэн тусгаарлагдсан байдаг бол Threads нь санах ойг хуваалцдаг.",
         "⦁	Процесс нь өгөгдөл хуваалцахгүй бөгөөд Threads нь өөр хоорондоо өгөгдлийг хуваалцдаг.",
       ],
-    },
+    },    
     {
       image:
         "https://miro.medium.com/v2/resize:fit:720/format:webp/1*b3Id83fP8zgIXdKXLzAZVQ.png",
       isImageOnly: true
     },
-
+    {
+      image:
+        "https://images.pexels.com/photos/1010487/pexels-photo-1010487.jpeg?auto=compress&cs=tinysrgb&w=600",
+      title: "Multithreading гэж юу вэ?",
+      description: "Multithreading гэдэг нь үйлдлийн систем доторх олон урсгалын гүйцэтгэлийг хэлнэ. Энгийнээр хэлбэл, нэг процессын хоёр ба түүнээс дээш хэлхээг нэгэн зэрэг гүйцэтгэнэ ",
+      titleClassName: "text-white",
+      descClassName: "text-gray-200",
+      isImageOnly: false,
+    },
   ];
+
+  React.useEffect(() => {
+    if (swiper) {
+      swiper.on('slideChange', () => {
+        setActiveIndex(swiper.activeIndex);
+      });
+    }
+  }, [swiper]);
 
   return (
     <>
@@ -117,13 +135,14 @@ export default function Home() {
         slidesPerView={1}
         spaceBetween={30}
         mousewheel={true}
-        pagination={{
-          clickable: true,
-        }}
+
         modules={[Mousewheel, Pagination]}
         className="mySwiper"
         onSlideChange={(swiper) => setActiveIndex(swiper.activeIndex)}
       >
+        <SwiperSlide>
+          <Intro isActive={activeIndex === 0} />
+        </SwiperSlide>
         {data.map((item, index) => (
           <SwiperSlide key={index}>
             <Show
@@ -134,7 +153,7 @@ export default function Home() {
               descClassName={item.descClassName}
               isImageOnly={item.isImageOnly}
               list={item.list}
-              isActive={index === activeIndex}
+              isActive={index + 1 === activeIndex}
             />
           </SwiperSlide>
         ))}
