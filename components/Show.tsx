@@ -21,7 +21,7 @@ const Show = (props: any) => {
       tl.fromTo(
         imageRef.current,
         { scale: 1.2, opacity: 0 },
-        { scale: 1, opacity: 1, duration: 1, ease: "power3.out" }
+        { scale: props.isImageOnly ? 0.8 : 1, opacity: 1, duration: 1, ease: "power3.out" }
       );
 
       // Title animation
@@ -54,7 +54,7 @@ const Show = (props: any) => {
       );
 
       // Add a subtle hover effect to the title and text
-      gsap.to(imageRef.current, {
+      !props.isImageOnly && gsap.to(imageRef.current, {
         scale: 1.05,
         duration: 1.5,
         ease: "power1.inOut",
@@ -85,13 +85,13 @@ const Show = (props: any) => {
   return (
     <div
       ref={containerRef}
-      className="flex items-center justify-center w-full h-full overflow-hidden"
+      className="flex items-center justify-center w-full h-full"
     >
       <img
         ref={imageRef}
         src={props.image}
-        className={`absolute left-0 top-0 object-cover w-screen h-screen -z-10 ${
-          props.isImageOnly ? "" : "brightness-[30%]"
+        className={`absolute left-0 top-0 ${
+          props.isImageOnly ? "object-fill h-screen w-screen z-50" : "-z-10 brightness-[30%] object-cover w-screen h-screen"
         }`}
       />
       <div
@@ -104,14 +104,17 @@ const Show = (props: any) => {
         </h2>
         <p
           ref={textRef}
-          className={`w-[600px] text-lg text-center opacity-0 ${props.descClassName}`}
+          className={`w-[600px] font-bold text-lg text-center opacity-0 ${props.descClassName}`}
         >
           {props.description}
         </p>
         {props.list && (
-          <ul ref={listRef} className="opacity-0">
+          <ul ref={listRef} className="opacity-0 flex flex-col gap-3 w-[600px]">
             {props.list.map((item: any, index: number) => (
-              <li key={index}>{item}</li>
+              <li key={index} className="">
+                <p className="text-start">{item}</p>
+                <hr className="bg-white mt-2 text-base" />
+              </li>
             ))}
           </ul>
         )}
